@@ -1,0 +1,31 @@
+app_name: nginx
+
+deployment:
+  replicas: 1
+  labels:
+    app: nginx
+  image: nginx
+  containerPort: 80
+  imagePullPolicy: IfNotPresent
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  name: nginx-ingress
+  enabled: false
+  host: tali-nginx.appstellar.training
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:313422618945:certificate/81bd8625-4271-438f-8426-a9585e5637cd
+    alb.ingress.kubernetes.io/tags: Name=devops-training
+    alb.ingress.kubernetes.io/group.name: devops-training
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+  
+

@@ -1,0 +1,7 @@
+replicaCount: 1
+clusterName: ${eks_cluster_id}
+region: ${aws_region}
+vpcId: ${vpc_id}
+serviceAccount:
+  create: true
+  name: ${service_account_name}

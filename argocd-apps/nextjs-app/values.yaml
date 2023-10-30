@@ -1,0 +1,29 @@
+app_name: nextjs-app
+
+deployment:
+  replicas: 1
+  labels:
+    app: nextjs-app
+  image: 313422618945.dkr.ecr.eu-central-1.amazonaws.com/nextjs
+  tag: latest
+  containerPort: 3000
+  imagePullPolicy: IfNotPresent
+
+service:
+  name: nextjs-app-service
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  name: nextjs-app-ingress
+  enabled: false
+  host: nextjs-app.appstellar.training
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:313422618945:certificate/f2154779-2539-453f-80f6-81c085afb9ec
+    alb.ingress.kubernetes.io/tags: Name=devops-training
+    alb.ingress.kubernetes.io/group.name: devops-training
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'

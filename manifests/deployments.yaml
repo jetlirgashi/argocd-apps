@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: labs
+  labels:
+    app: nginx
+spec:
+  revisionHistoryLimit: 3
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          imagePullPolicy: Always
+          image: nginx:latest
+          envFrom:
+          - configMapRef:
+               name: nginx-config
+          - secretRef:
+               name: nginx-secret
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: config
+            mountPath: "/config"
+            readOnly: true
+      volumes:
+      # You set volumes at the Pod level, then mount them into containers inside that Pod
+      - name: config
+        configMap:
+          # Provide the name of the ConfigMap you want to mount.
+          name: nginx-config
+          # An array of keys from the ConfigMap to create as files
+          items:
+          - key: "mytextfile.txt"
+            path: "mytextfile.txt"

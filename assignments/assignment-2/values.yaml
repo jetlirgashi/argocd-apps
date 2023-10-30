@@ -1,0 +1,34 @@
+app_name: nginx
+
+configmap:
+  name: nginx-config
+  enabled: true
+  data:
+    DB_HOSTNAME: test
+
+deployment:
+  replicas: 1
+  labels:
+    app: nginx
+  image: nginx
+  containerPort: 80
+  imagePullPolicy: IfNotPresent
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  name: nginx-ingress
+  enabled: false
+  host: nginx.test
+
+secret:
+  name: nginx-secret
+  secrets:
+    DB_PASSWORD: bXlkYnB3Cg==
+
+
+  
+

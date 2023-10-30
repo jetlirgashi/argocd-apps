@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: labs
+data: 
+  PORT: "80"
+  ENABLE_SSL: "true"
+  mytextfile.txt: |
+    This is my first configmap volume and file
