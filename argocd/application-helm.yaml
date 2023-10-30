@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-helm
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argo-cd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: nginx-helm
+spec:
+  # The project the application belongs to.
+  project: labs
+
+  # Source of the application manifests
+
+  source:
+    repoURL: 'git@github.com:appstellar-training/devops-training-group-6.git'
+    path: argocd-apps/helm
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    # cluster API URL
+    server: https://kubernetes.default.svc  
+    namespace: labs
+    
+
+  # Sync policy
+  syncPolicy:
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
