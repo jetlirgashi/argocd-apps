@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-directory
+  name: nginx-jetlir
   # You'll usually want to add your resources to the argocd namespace.
   namespace: argo-cd
   # Add this finalizer ONLY if you want these to cascade delete.
@@ -9,14 +9,14 @@ metadata:
     # The default behaviour is foreground cascading deletion
     - resources-finalizer.argocd.argoproj.io
   labels:
-    name: nginx-directory
+    name: nginx-jetlir
 spec:
   # The project the application belongs to.
-  project: labs
+  project: argocdjetlir
 
   # Source of the application manifests
   source:
-    repoURL: git@github.com:appstellar-training/devops-training-group-6.git 
+    repoURL: git@github.com:jetlirgashi/argocd-apps.git
     targetRevision: HEAD  # For Helm, this refers to the chart version.
     path: argocd-apps/directory  # This has no meaning for Helm charts pulled directly from a Helm repo instead of git
 
@@ -30,7 +30,7 @@ spec:
   destination:
     # cluster API URL
     server: https://kubernetes.default.svc  
-    namespace: labs
+    namespace: argocdjetlir
     
   # Sync policy
   syncPolicy:

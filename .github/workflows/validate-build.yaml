@@ -19,4 +19,3 @@ jobs:
     - name: Build
       working-directory: nextjs/nextjs-app
       run: npm run build      
-
