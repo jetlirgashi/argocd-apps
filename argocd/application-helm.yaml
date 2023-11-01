@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-helm
+  name: nginx-helm-jetlir
   # You'll usually want to add your resources to the argocd namespace.
   namespace: argo-cd
   # Add this finalizer ONLY if you want these to cascade delete.
@@ -9,10 +9,10 @@ metadata:
     # The default behaviour is foreground cascading deletion
     - resources-finalizer.argocd.argoproj.io
   labels:
-    name: nginx-helm
+    name: nginx-helm-jetlir
 spec:
   # The project the application belongs to.
-  project: labs
+  project: argocdjetlir
 
   # Source of the application manifests
 
